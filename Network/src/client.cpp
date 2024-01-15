@@ -7,8 +7,7 @@
 constexpr int PORT = 8080;
 constexpr int BUFFER_SIZE = 1024;
 
-class Client {
-public:
+
     Client() : clientSocket(-1) {}
 
     ~Client() {
@@ -64,17 +63,3 @@ public:
 private:
     int clientSocket;
 };
-
-int main() {
-    // Set the server address (change this to the actual server address)
-    const char* serverAddress = "127.0.0.1";
-
-    Client echoClient;
-
-    if (echoClient.connectToServer(serverAddress)) {
-        // Send data to the server (replace "Hello, Server!" with your data)
-        echoClient.sendData("Hello, Server!");
-    }
-
-    return EXIT_SUCCESS;
-}
