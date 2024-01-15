@@ -12,140 +12,121 @@ using namespace::std;
 
 // Definition of error Codes
 enum ERR_CODES {
+    STABLE,
     WARNING,
-    NO_CONNECTION,
-    FAIL,
+    NO_LISTENING,
+    NO_CLIENTS,
+    NO_ACCEPTED,
+    FAIL_01,
+    FAIL_02,
     TRYING,
     ISSUE_05,
     EXIT
 };
 
+typedef ERR_CODES response_codes;
 
 
-class Server:
+class Server
 {
     public:
-    // Contructor
+        // Contructor
+        Server() : serverSocket(-1) {}
 
-    int _init()
-    {
+        ~Server(){
+        if (serverSocket != -1) 
+            {
+            close(serverSocket);
+            }
+        } 
 
-    };
+        // Create the socket
+        response_codes __init(){
+            serverSocket = socket(AF_INET, SOCK_STREAM, 0);
+            if(serverSocket == -1){
+                std::cerr << "Error creating Socket." << std::endl;
+                return FAIL_01;
+            }
+        
 
-    int _bind_addr()
-    {
+        // Bind the socket to an address and port
+            sockaddr_in serverAddress{};
+            serverAddress.sin_family = AF_INET;
+            serverAddress.sin_addr.s_addr = INADDR_ANY;
+            serverAddress.sin_port = htons(PORT);
 
-    };
+            if (bind(serverSocket, reinterpret_cast<struct sockaddr*>(&serverAddress), sizeof(serverAddress)) == -1){
+                std::cerr << "Error binding socket." << std::endl;
+                close(serverSocket);
+                return FAIL_02;
+            }
+        
+        // Listen for incoming connections
 
-    int _listening()
-    {
+            if (listen(serverSocket, 5) == -1) {
+                std::cerr << "Error listening for connections." << std::endl;
+                close(serverSocket);
+                return NO_LISTENING;
+            }
 
-    };
+            std::cout << "Server listening on port " << PORT << std::endl;
 
-    int socket_client()
-    {
+            return STABLE;
+        };
 
-    };
 
-    int _status()
-    {
+        // Waiting for a client
+        response_codes __start(){
+            while (true) {
+                // Accept a connection from a client
+                int clientSocket = accept(serverSocket, nullptr, nullptr);  // ----->>> Aqui va la authenticacion
+                if (clientSocket == -1) {
+                    std::cerr << "Error accepting connection." << std::endl;
+                    close(serverSocket);
+                    return NO_ACCEPTED;
+                }
 
-    };
+                // Handle the client
+                _client(clientSocket);
 
-    int _echo()
-    {
+                // Close the client socket
+                close(clientSocket);
+            }
 
-    };
+            return STABLE;
 
-    int login_req()
-    {
-
-    };
-
-    int auth_mek()
-    {
-
-    };
-
-    int bind_server()
-    {
-
-    };
-
-    int _close()
-    {
-
-    };
+        };
 
     private:
+        int serverSocket;
+
+        response_codes _client(int clientSocket){
+            char buffer[BUFFER_SIZE];
+            ssize_t bytesRead;
+
+            while ((bytesRead = recv(clientSocket, buffer, sizeof(buffer), 0)) > 0) {
+                // Process data (in this case, just echoing back)
+                send(clientSocket, buffer, static_cast<size_t>(bytesRead), 0);
+            }
+            return STABLE;
+        };
 
     
-}
-
-
-// Create the socket
-int __init()
-{
-    int serverSocket = socket(AF_INET, SOCK_STREAM, 0);
-    if(serverSocket == -1) 
-    {
-        std::cerr << "Error creating Socket." << std::endl;
-        return EXIT;
-    }
 };
 
-// Bind the socket to an address and port
-int __bind_addr()
-{
-    sockaddr_in serverAddress{};
-    serverAddress.sin_family = AF_INET;
-    serverAddress.sin_addr.s_addr = INADDR_ANY;
-    serverAddress.sin_port = htons(PORT);
 
-    if (bind(serverSocket, reinterpret_cast<struct sockaddr*>(&serverAddress), sizeof(serverAddress)) == -1) {
-    std::cerr << "Error binding socket." << std::endl;
-    close(serverSocket);
-    return EXIT_FAILURE;
+
+int main(){
+
+    Server echoServer;
+
+    if(echoServer.__init())
+    {
+        echoServer.__start();
     }
-}
-
-// Listen for incoming connections
-int __listening()
-{
-    if (listen(serverSocket, 5) == -1) {
-    std::cerr << "Error listening for connections." << std::endl;
-    close(serverSocket);
-    return EXIT_FAILURE;
-    }
-
-    std::cout << "Server listening on port " << PORT << std::endl;
-
-    while (true) {
-        // Accept a connection from a client
-        int clientSocket = accept(serverSocket, nullptr, nullptr);   ----->>> Aqui va la authenticacion
-        if (clientSocket == -1) {
-            std::cerr << "Error accepting connection." << std::endl;
-            close(serverSocket);
-            return EXIT_FAILURE;
-        }
-
-        // Receive and send back data in chunks
-        char buffer[BUFFER_SIZE];
-        ssize_t bytesRead;
-
-        while ((bytesRead = recv(clientSocket, buffer, sizeof(buffer), 0)) > 0) {
-            send(clientSocket, buffer, static_cast<size_t>(bytesRead), 0);
-        }
-
-        // Close the client socket
-        close(clientSocket);
-    }
-
-    // Close the server socket (not reached in this example)
-    close(serverSocket);
 
     return EXIT_SUCCESS;
-
 }
+
 
 
