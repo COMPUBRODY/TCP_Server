@@ -1,8 +1,5 @@
-#include <iostream>
-#include <cstring>
-#include <cstdlib>
-#include <unistd.h>
-#include <arpa/inet.h>
+
+#include <server.h>
 
 
 constexpr int PORT = 8080;
@@ -10,21 +7,7 @@ constexpr int BUFFER_SIZE = 1024;
 
 using namespace::std;
 
-// Definition of error Codes
-enum ERR_CODES {
-    STABLE,
-    WARNING,
-    NO_LISTENING,
-    NO_CLIENTS,
-    NO_ACCEPTED,
-    FAIL_01,
-    FAIL_02,
-    TRYING,
-    ISSUE_05,
-    EXIT
-};
 
-typedef ERR_CODES response_codes;
 
 
 class Server
@@ -49,7 +32,7 @@ class Server
             }
         
 
-        // Bind the socket to an address and port
+            // Bind the socket to an address and port
             sockaddr_in serverAddress{};
             serverAddress.sin_family = AF_INET;
             serverAddress.sin_addr.s_addr = INADDR_ANY;
@@ -61,7 +44,7 @@ class Server
                 return FAIL_02;
             }
         
-        // Listen for incoming connections
+            // Listen for incoming connections
 
             if (listen(serverSocket, 5) == -1) {
                 std::cerr << "Error listening for connections." << std::endl;
@@ -116,17 +99,6 @@ class Server
 
 
 
-int main(){
-
-    Server echoServer;
-
-    if(echoServer.__init())
-    {
-        echoServer.__start();
-    }
-
-    return EXIT_SUCCESS;
-}
 
 
 
