@@ -3,6 +3,7 @@ SRC_DIR := Network/src/ # Source directory
 INC_DIR := Network/include/ # Source directory
 BUILD_DIR := Network/bin/ # Build directory
 
+OBJ      = main.o Network/bin/Client.o Network/bin/Server.o Network/bin/Network.o 
 LINKOBJ  = main.o Network/bin/client.o Network/bin/server.o Network/bin/network.o 
 BIN      = TCP_Echo_Server.a
 
@@ -12,9 +13,13 @@ INCLUDES := -I$(INC_DIR) #Add the include directory
 
 .PHONY: all all-before all-after clean clean-custom
 
-all: all-before $(BIN) all-after
-	mkdir -p $(BUILD_DIR)
+
+
+all: all-before $(BUILD_DIR) $(BIN) all-after
 	
+$(BUILD_DIR):
+	mkdir -p $(BUILD_DIR)
+
 $(BIN): $(LINKOBJ)
 	$(CC) $(LINKOBJ) -o $(BIN)
 
@@ -33,4 +38,4 @@ Network/bin/network.o: Network/src/network.cpp
 
 
 clean: clean-custom
-	${RM} $(OBJ) $(BIN)
+	${RM} -rf $(BUILD_DIR) $(BIN) $(OBJ)

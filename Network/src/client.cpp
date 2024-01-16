@@ -17,14 +17,55 @@ Client::Client(std::string address):Network(Client_instance,address)
 {
     // Resolve the server address and port
     IP = address;
-	std::cout<<"client build"<<std::endl;
+	std::cout<<"Building Client ."<<std::endl;
     //this->mode     = Hold;
     //this->cuadrant = Right_Cuadrant;
 }
 
+response_codes Client :: __init(){
 
-response_codes Client :: connectToServer(const char* serverAddress) {
+    printf("Client Initialized..\n");
+    connectToServer(IP);
+    __start();
+    return STABLE;
+};
+
+response_codes Client :: __start(){
+
+    printf("Client Started...");
+    _client(01);
+    return STABLE;
+};
+
+response_codes Client :: _client(int clientSocket){
+
+    std::string dataToSend = "Hello, Server!";
+    printf("Sending Message... .");
+
+        // Call the Send function to send the data
+    response_codes result = Send(dataToSend);
+
+    // Check the result
+    if (result == OK) {
+        std::cout << "Data sent successfully." << std::endl;
+    } else if (result == NO_ACCEPTED) {
+        std::cout << "Not all data sent." << std::endl;
+    } else {
+        std::cout << "Error in sending data." << std::endl;
+        return ISSUE_05;
+    }
+
+    return STABLE;
+};
+
+response_codes Client :: _Server(int serverSocket){
+
+    return STABLE;
+};
+
+response_codes Client :: connectToServer(std::string serverAddress) {
         // Create a socket
+        const char* addr_IP = serverAddress.c_str();
         clientSocket = socket(AF_INET, SOCK_STREAM, 0);
         if (clientSocket == -1) {
             std::cerr << "Error creating socket." << std::endl;
@@ -35,7 +76,7 @@ response_codes Client :: connectToServer(const char* serverAddress) {
         sockaddr_in serverAddr{};
         serverAddr.sin_family = AF_INET;
         serverAddr.sin_port = htons(PORT);
-        if (inet_pton(AF_INET, serverAddress, &(serverAddr.sin_addr)) <= 0) {
+        if (inet_pton(AF_INET, addr_IP, &(serverAddr.sin_addr)) <= 0) {
             std::cerr << "Invalid server address." << std::endl;
             close(clientSocket);
             return FAIL_02;

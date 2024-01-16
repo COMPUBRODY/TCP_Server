@@ -26,7 +26,7 @@ int main(int argc, char **argv){
         //use delete word to delete the dynamic Memory
         delete sr;
 	#else
-        Network* cl = new Client("127.0.0.1");
+        Client* cl = new Client("127.0.0.1");
         Main_program(cl);
         delete cl;
 	#endif

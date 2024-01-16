@@ -5,7 +5,7 @@
 #include <arpa/inet.h>
 
 
-constexpr int PORT = 8080;
+constexpr int PORT = 8888;
 constexpr int BUFFER_SIZE = 1024;
 
 using namespace::std;
@@ -50,6 +50,18 @@ response_codes Server :: __init(){
     std::cout << "Server listening on port " << PORT << std::endl;
 
     // Rest of your server code goes here...
+    response_codes state = __start();
+
+
+    // Check the result
+    if (state == OK) {
+        std::cout << "Server is working successfully." << std::endl;
+    } else if (state == WARNING) {
+        std::cout << "Not all data sent." << std::endl;
+    } else {
+        std::cout << "Error in sending data." << std::endl;
+        return ISSUE_06;
+    }
 
     // Close the server socket when done
     close(serverSocket);
@@ -71,8 +83,6 @@ response_codes Server :: __start(){
         // Handle the client
         _client(clientSocket);
 
-        // Close the client socket
-        close(clientSocket);
         }
 
     return STABLE;
@@ -91,13 +101,24 @@ response_codes Server :: _client(int clientSocket){
     return STABLE;
 };
 
+response_codes Server:: _Server(int serverSocket){
+
+    return STABLE;
+};
+
 // Connection correct to server
 response_codes Server ::Establish_Communication(){
 
     return STABLE;
 };
+
+response_codes Server:: connectToServer(std::string serverAddress){
+    
+    return STABLE;
+};
+
 // send data from server to client
-response_codes Server ::Send(const std::string& data){
+response_codes Server :: Send(const std::string& data){
 
     return STABLE;
 };
@@ -106,8 +127,6 @@ response_codes Server ::Send(const std::string& data){
  inline void Server :: Recieve(){
 
 };
-
-
 
 // Destructor Server
 Server:: ~Server(){

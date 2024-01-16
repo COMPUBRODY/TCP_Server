@@ -3,7 +3,7 @@
 
 Network::Network(Network_entity net,std::string ip_str)
 {
-    printf("Network init\n");
+    
     // Initialize Socket
     this->role = net;
 	
@@ -31,4 +31,6 @@ Network::Network(Network_entity net,std::string ip_str)
         printf("getaddrinfo failed with error: %d\n", iResult);
         return;
     }
+
+    printf("Network init\n");
 }

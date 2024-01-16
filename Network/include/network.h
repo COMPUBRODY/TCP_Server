@@ -23,6 +23,7 @@ typedef enum{
 
 // Definition of error Codes
 enum ERR_CODES {
+    OK,
     STABLE,
     WARNING,
     NO_LISTENING,
@@ -32,6 +33,7 @@ enum ERR_CODES {
     FAIL_02,
     TRYING,
     ISSUE_05,
+    ISSUE_06,
     EXIT
 };
 
@@ -61,7 +63,7 @@ class Network
         virtual response_codes _client(int clientSocket) = 0;
         virtual response_codes _Server(int serverSocket) = 0;
         virtual response_codes Establish_Communication() = 0;
-        virtual response_codes connectToServer(const char* serverAddress) = 0;
+        virtual response_codes connectToServer(std::string serverAddress) = 0;
         virtual response_codes Send(const std::string& data)  = 0;
         virtual inline void Recieve() = 0;
 };
