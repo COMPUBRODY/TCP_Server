@@ -3,8 +3,6 @@
 
 #include "network.h"
 
-#define DEFAULT_BUFLEN 512
-
 class Client :public Network
 {
     public:

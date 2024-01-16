@@ -1,3 +1,5 @@
 .vscode
 .vscode-ctags
 Network/bin
+main.o
+TCP_Echo_Server.a

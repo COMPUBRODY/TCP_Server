@@ -1,7 +1,7 @@
 #include <iostream>
 #include <stdio.h>
-#include <server.h>
-#include "network.h"
+#include "../include/server.h"
+#include "../include/network.h"
 #include <arpa/inet.h>
 
 
@@ -94,10 +94,12 @@ response_codes Server :: _client(int clientSocket){
 // Connection correct to server
 response_codes Server ::Establish_Communication(){
 
+    return STABLE;
 };
 // send data from server to client
 response_codes Server ::Send(const std::string& data){
 
+    return STABLE;
 };
 
 // the client is sending data

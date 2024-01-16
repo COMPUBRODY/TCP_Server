@@ -3,8 +3,8 @@
 #include <cstring>
 #include <cstdlib>
 #include <unistd.h>
-#include <client.h>
-#include "network.h"
+#include "../include/client.h"
+#include "../include/network.h"
 
 
 constexpr int PORT = 8080;
@@ -74,6 +74,7 @@ response_codes Client ::Send(const std::string& data) {
     } else {
         std::cerr << "Error receiving data from server." << std::endl;
     }
+    return STABLE;
 }
 
 
@@ -97,6 +98,7 @@ inline void Client :: Recieve()
 response_codes Client ::Establish_Communication()
 {
   
+  return STABLE;
 }
 
 

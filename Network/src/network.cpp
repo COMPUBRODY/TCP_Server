@@ -1,4 +1,4 @@
-#include "network.h"
+#include "../include/network.h"
 
 
 Network::Network(Network_entity net,std::string ip_str)

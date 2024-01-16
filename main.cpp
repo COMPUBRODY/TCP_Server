@@ -1,9 +1,9 @@
 #include <iostream>
-#include "network.h"
-#include "server.h"
-#include <client.h>
-#include <security.h>
-#include <threads.h>
+#include "Network/include/network.h"
+#include "Network/include/server.h"
+#include "Network/include/client.h"
+//#include <security.h>
+//#include <threads.h>
 
 
 #define SERVER (1)
