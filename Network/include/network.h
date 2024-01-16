@@ -14,9 +14,9 @@
 #define DEFAULT_BUFLEN 256
 #define DEFAULT_PORT   "3333"
 
+#pragma once
 
-typedef enum
-{
+typedef enum{
 	Server_instance,
 	Client_instance
 }Network_entity;
@@ -41,31 +41,29 @@ typedef ERR_CODES response_codes;
 class Network
 {
 	public:
-	
-	Network_entity role;
-	std::string IP;
+        Network(Network_entity net,std::string ip_str);
+        virtual ~Network() {};
 
-	// struct addrinfo *result = NULL;
-	// struct addrinfo *ptr    = NULL;
-	// struct addrinfo hints;
+        // Member Variables
+        Network_entity role;
+        response_codes code;
+        std::string IP;
+        int recvbuflen = DEFAULT_BUFLEN;
+        char recvbuf[DEFAULT_BUFLEN];
+        std::string sendbuf;
+        int iResult;
+        
 
-	int recvbuflen       = DEFAULT_BUFLEN;
-	char recvbuf[DEFAULT_BUFLEN];
-	std::string sendbuf;
 
-    int iResult;
-    
-	Network(Network_entity net,std::string ip_str);
-	virtual ~Network() {};
-
-	//Custom Functions
-    virtual response_codes __init() = 0;
-    virtual response_codes __start() = 0;
-    virtual response_codes _client(int clientSocket) = 0;
-    virtual response_codes _Server(int serverSocket) = 0;
-	virtual response_codes Establish_Communication() = 0;
-	virtual response_codes Send(std::string msg)  = 0;
-	virtual inline void Recieve() = 0;
+        //Custom Functions
+        virtual response_codes __init() = 0;
+        virtual response_codes __start() = 0;
+        virtual response_codes _client(int clientSocket) = 0;
+        virtual response_codes _Server(int serverSocket) = 0;
+        virtual response_codes Establish_Communication() = 0;
+        virtual response_codes connectToServer(const char* serverAddress) = 0;
+        virtual response_codes Send(const std::string& data)  = 0;
+        virtual inline void Recieve() = 0;
 };
 
 #endif
