@@ -5,7 +5,7 @@
 #include <arpa/inet.h>
 
 
-constexpr int PORT = 8888;
+constexpr int PORT = 8080;
 constexpr int BUFFER_SIZE = 1024;
 
 using namespace::std;

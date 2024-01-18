@@ -33,7 +33,9 @@ response_codes Client :: __init(){
 response_codes Client :: __start(){
 
     printf("Client Started...");
-    _client(01);
+    while(1){
+        _client(01);
+    }
     return STABLE;
 };
 
@@ -94,7 +96,7 @@ response_codes Client :: connectToServer(std::string serverAddress) {
         // Rest of your client code goes here...
 
         // Close the server socket when done
-        close(clientSocket);
+        //close(clientSocket);
 
 
         return STABLE;
