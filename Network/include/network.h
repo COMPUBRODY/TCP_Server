@@ -29,10 +29,10 @@ enum ERR_CODES {
     NO_LISTENING,
     NO_CLIENTS,
     NO_ACCEPTED,
-    FAIL_01,
+    FAIL_01,  //Related to the fail of Server as Client
     FAIL_02,
     TRYING,
-    ISSUE_05,
+    ISSUE_05, //Related with Client 
     ISSUE_06,
     EXIT
 };

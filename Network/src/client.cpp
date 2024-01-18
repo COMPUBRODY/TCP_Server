@@ -25,39 +25,47 @@ Client::Client(std::string address):Network(Client_instance,address)
 response_codes Client :: __init(){
 
     printf("Client Initialized..\n");
-    connectToServer(IP);
-    __start();
+    if(! connectToServer(IP) == STABLE){
+        printf("error connectToServer");
+    }
+    while(__start()){
+        printf("Client Working Fine");
+    }
+    printf("Client Closed");
+
     return STABLE;
 };
 
 response_codes Client :: __start(){
 
-    printf("Client Started...");
-    while(1){
-        _client(01);
-    }
+    printf("Client Started...\n");
+    response_codes result = _client(01);
+            // Check the result
+        if (result == OK) {
+            std::cout << "Communication OK" << std::endl;
+        } else{
+            std::cout << "Something is wrong in CLient" << std::endl;
+            return WARNING;
+        }
     return STABLE;
 };
 
 response_codes Client :: _client(int clientSocket){
 
     std::string dataToSend = "Hello, Server!";
-    printf("Sending Message... .");
+    printf("Sending Message.\n");
 
-        // Call the Send function to send the data
+    // Call the Send function to send the data
     response_codes result = Send(dataToSend);
 
     // Check the result
     if (result == OK) {
         std::cout << "Data sent successfully." << std::endl;
-    } else if (result == NO_ACCEPTED) {
-        std::cout << "Not all data sent." << std::endl;
-    } else {
-        std::cout << "Error in sending data." << std::endl;
-        return ISSUE_05;
-    }
-
-    return STABLE;
+    } else{
+        std::cout << "It Seems that something wrong with server." << std::endl;
+        return ISSUE_06;
+    } 
+    return OK;
 };
 
 response_codes Client :: _Server(int serverSocket){
@@ -116,8 +124,9 @@ response_codes Client ::Send(const std::string& data) {
         std::cout << "Received data from server: " << buffer << std::endl;
     } else {
         std::cerr << "Error receiving data from server." << std::endl;
+        return FAIL_01; 
     }
-    return STABLE;
+    return OK;
 }
 
 

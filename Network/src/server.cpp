@@ -25,33 +25,26 @@ response_codes Server :: __init(){
         return FAIL_01;
     }
 
-
     // Bind the socket to an address and port
     sockaddr_in serverAddress{};
     serverAddress.sin_family = AF_INET;
     serverAddress.sin_addr.s_addr = INADDR_ANY;
     serverAddress.sin_port = htons(PORT);
 
-
     if (bind(serverSocket, reinterpret_cast<struct sockaddr*>(&serverAddress), sizeof(serverAddress)) == -1){
         std::cerr << "Error binding socket." << std::endl;
         close(serverSocket);
         return FAIL_02;
     }
-
     // Listen for incoming connections
-
     if (listen(serverSocket, 5) == -1) {
         std::cerr << "Error listening for connections." << std::endl;
         close(serverSocket);
         return NO_LISTENING;
     }
-
     std::cout << "Server listening on port " << PORT << std::endl;
-
     // Rest of your server code goes here...
     response_codes state = __start();
-
 
     // Check the result
     if (state == OK) {
@@ -62,7 +55,6 @@ response_codes Server :: __init(){
         std::cout << "Error in sending data." << std::endl;
         return ISSUE_06;
     }
-
     // Close the server socket when done
     close(serverSocket);
 
