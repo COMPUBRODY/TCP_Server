@@ -6,7 +6,7 @@
 //#include <threads.h>
 
 
-#define SERVER (1)
+#define SERVER (0)
 
 
 void Main_program(Network* net)

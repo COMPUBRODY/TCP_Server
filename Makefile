@@ -5,7 +5,8 @@ BUILD_DIR := Network/bin/ # Build directory
 
 OBJ      = main.o Network/bin/Client.o Network/bin/Server.o Network/bin/Network.o 
 LINKOBJ  = main.o Network/bin/client.o Network/bin/server.o Network/bin/network.o 
-BIN      = TCP_Echo_Server.a
+S_BIN      = TCP_Echo_Server.a
+C_BIN      = TCP_Echo_Client.a
 
 # Flags
 FLAGS := -std=c++11
@@ -15,13 +16,16 @@ INCLUDES := -I$(INC_DIR) #Add the include directory
 
 
 
-all: all-before $(BUILD_DIR) $(BIN) all-after
+all: all-before $(BUILD_DIR) server client all-after
 	
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
 
-$(BIN): $(LINKOBJ)
-	$(CC) $(LINKOBJ) -o $(BIN)
+server: $(LINKOBJ)
+	$(CC) $(LINKOBJ) -o $(S_BIN)
+
+client: $(LINKOBJ)
+	$(CC) $(LINKOBJ) -o $(C_BIN)
 
 main.o: main.cpp
 	$(CC) -c main.cpp -o main.o $(FLAGS)

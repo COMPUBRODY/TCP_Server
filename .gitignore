@@ -3,3 +3,4 @@
 Network/bin
 main.o
 TCP_Echo_Server.a
+TCP_Echo_Client.a

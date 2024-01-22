@@ -113,6 +113,7 @@ response_codes Client :: connectToServer(std::string serverAddress) {
 response_codes Client ::Send(const std::string& data) {
     
     send(clientSocket, data.c_str(), data.length(), 0);
+
     std::cout << "Sent data: " << data << std::endl;
 
     // Receive the echoed data from the server
